@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Debug Backtrace</title>
+
+<style type="text/css">
+<!--
+a, a:active, a:visited { color: #006666; text-decoration: none; }
+a:hover { color:#00CC99; text-decoration: underline; }
+body, p, h1, h2, h3, h4, h5, h6, li, td, dd, dt { font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif; font-size: 10pt; color: black; padding: 0px; margin: 20px; }
+pre { margin: 20px; }
+H1, H2, H3, H4 { font-weight: bold }
+h1 { font-size: 20px; }
+h2 { font-size: 16px; }
+ol li, ul li { margin: 5px 0; }
+.corefile, .impt { color: red; }
+img { margin-left: 20px; max-width: 95%; }
+-->
+</style>
+</head>
+
+<body>
+<a name="top" id="top"></a>
+<h1>myDEBUG Backtrace for Zen Cart v1.5.0, v1.5.1, v1.5.2 and v1.5.3</h1>
+<h3>Version 1.0.0</h3>
+<p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread&p=1250103#post1250103">http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread&p=1250103#post1250103</a></p>
+
+<h2>What it does</h2>
+<p>This plugin builds on the <a href="http://www.zen-cart.com/showthread.php?211396-Use-debug_backtrace%28%29-to-determine-query_factory-caller-on-error" target="_blank">suggestion</a> I made to have the database's <code>query_factory</code> class include a <a href="http://www.php.net/manual/en/function.debug-backtrace.php" target="_blank"><code>debug_backtrace</code></a> when a database interface error is detected, to aid in problem determination.  There are other cases when a Zen Cart myDEBUG*.log file is created in which a &quot;victim&quot; (usually one of the Zen Cart built-in functions) is identified, but the &quot;culprit&quot; is actually the function's caller.  This plugin updates the Zen Cart's built-in error handling (both admin- and store-side) to include a PHP <code>debug_backtrace</code> as part of the debug-log.  That is, instead of receiving the (not particularly helpful) log:</p>
+<pre>[19-Jun-2014 20:19:22] PHP Warning:  strtr() [function.strtr]: The second argument is not an array in C:\xampp\htdocs\testing\includes\functions\functions_general.php on line 64</pre>
+<p>you'll receive the following log from which you can easily determine the &quot;culprit&quot; (/includes/init_includes/init_item.php):</p>
+<pre>
+[19-Jun-2014 20:19:22] #1  strtr() called at [C:\xampp\htdocs\testing\includes\functions\functions_general.php:64]
+#2  zen_parse_input_field_data() called at [C:\xampp\htdocs\testing\includes\init_includes\init_item.php:8]
+#3  require(C:\xampp\htdocs\testing\includes\init_includes\init_item.php) called at [C:\xampp\htdocs\testing\includes\autoload_func.php:48]
+#4  require(C:\xampp\htdocs\testing\includes\autoload_func.php) called at [C:\xampp\htdocs\testing\includes\application_top.php:150]
+#5  require(C:\xampp\htdocs\testing\includes\application_top.php) called at [C:\xampp\htdocs\testing\index.php:26]
+
+
+[19-Jun-2014 20:19:22] PHP Warning:  strtr() [function.strtr]: The second argument is not an array in C:\xampp\htdocs\testing\includes\functions\functions_general.php on line 64
+</pre>
+
+<h2>Installation</h2>
+<p>This plugin's changes comprise <em>two (2)</em> <span class="corefile">core-file overwrites</span>; you should <strong>always</strong> backup your cart's database and files prior to making any changes.  Unzip the plugin's package file, rename the YOUR_ADMIN folder to match your custom admin folder's name and then copy the contents of that admin folder to your store's installation:</p>
+<ol>
+  <li><span class="corefile">/includes/extra_configures/enable_error_logging.php</span></li>
+  <li><span class="corefile">/YOUR_ADMIN/includes/extra_configures/enable_error_logging.php</span></li>
+</ol>
+
+<h2>Uninstall</h2>
+<p>Restore the two overwritten <span class="corefile">core files</span> to the backup contents created during the plugin's installation.</p>
+
+<h2>Version History:</h2>
+<ul>
+  <li>v1.0.0, 2014-06-19, Initial release.</li>
+</ul>
+
+</body>
+</html>
