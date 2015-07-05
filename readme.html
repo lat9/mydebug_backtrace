@@ -23,8 +23,8 @@ img { margin-left: 20px; max-width: 95%; }
 <body>
 <a name="top" id="top"></a>
 <h1>myDEBUG Backtrace for Zen Cart v1.5.0 through v1.5.4</h1>
-<h3>Version 1.0.2</h3>
-<p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread&p=1250103#post1250103">http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread&p=1250103#post1250103</a></p>
+<h3>Version 1.0.3</h3>
+<p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread" target="_blank">http://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread</a></p>
 
 <h2>What it does</h2>
 <p>This plugin builds on the <a href="http://www.zen-cart.com/showthread.php?211396-Use-debug_backtrace%28%29-to-determine-query_factory-caller-on-error" target="_blank">suggestion</a> I made to have the database's <code>query_factory</code> class include a <a href="http://www.php.net/manual/en/function.debug-backtrace.php" target="_blank"><code>debug_backtrace</code></a> when a database interface error is detected, to aid in problem determination.  There are other cases when a Zen Cart myDEBUG*.log file is created in which a &quot;victim&quot; (usually one of the Zen Cart built-in functions) is identified, but the &quot;culprit&quot; is actually the function's caller.  This plugin updates the Zen Cart's built-in error handling (both admin- and store-side) to include a PHP <code>debug_backtrace</code> as part of the debug-log.  That is, instead of receiving the (not particularly helpful) log:</p>
@@ -56,6 +56,7 @@ img { margin-left: 20px; max-width: 95%; }
   <li>v1.0.0, 2014-06-19, Initial release.</li>
   <li>v1.0.1, 2015-01-07: Remove &quot;stray&quot; files from the <em>Display Debug Logs</em> plugin.</li>
   <li>v1.0.2, 2015-01-30: Restore <em>-adm-</em> distinction in the filename for myDEBUG log files issued during admin-level processing.</li>
+  <li>v1.0.3, 2015-07-04: Differentiate between PHP versions for call to debug_backtrace; see <a href="https://www.zen-cart.com/showthread.php?213695-myDEBUG-Backtrace-Support-Thread&p=1282979#post1282979" target="_blank">this support-thread post</a> for details.</li>
 </ul>
 
 </body>

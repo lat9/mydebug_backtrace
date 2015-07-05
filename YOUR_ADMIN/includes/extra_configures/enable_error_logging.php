@@ -17,7 +17,13 @@ function zen_error_handler ($errno, $errstr, $errfile, $errline) {
     return;
   }
   ob_start ();
-  debug_print_backtrace (DEBUG_BACKTRACE_IGNORE_ARGS);
+  if (version_compare (PHP_VERSION, '5.3.6') >= 0) {
+    debug_print_backtrace (DEBUG_BACKTRACE_IGNORE_ARGS);
+    
+  } else {
+    debug_print_backtrace ();
+    
+  }
   $backtrace = ob_get_contents ();
   ob_end_clean ();
   $backtrace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $backtrace, 1);  //-Remove the call to this function (not relevant)
