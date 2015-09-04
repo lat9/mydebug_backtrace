@@ -27,7 +27,7 @@ function zen_error_handler ($errno, $errstr, $errfile, $errline) {
   $backtrace = ob_get_contents ();
   ob_end_clean ();
   $backtrace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $backtrace, 1);  //-Remove the call to this function (not relevant)
-  error_log ($backtrace);
+  error_log ('Request URI: ' . $_SERVER['REQUEST_URI'] . ', IP address: ' . (isset ($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'not set') . "\n" . $backtrace);
   
   return false;  //-Let PHP's built-in error handler do its thing.
 }
